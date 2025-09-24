@@ -1,5 +1,5 @@
 import pytest
-from palindrome import is_palindrome
+from main import is_palindrome
 
 @pytest.mark.parametrize(
     "num,expected",
