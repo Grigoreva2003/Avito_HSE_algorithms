@@ -1,5 +1,5 @@
 import pytest
-from homework_2.stack.stack import Stack
+from homework_2.stack_vs_queue.stack.stack import Stack
 
 def test_empty_stack():
     stack = Stack()

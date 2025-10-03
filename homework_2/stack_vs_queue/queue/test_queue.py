@@ -1,5 +1,5 @@
 import pytest
-from homework_2.queue.queue import Queue
+from homework_2.stack_vs_queue.queue.queue import Queue
 
 def test_empty_queue():
     queue = Queue()
