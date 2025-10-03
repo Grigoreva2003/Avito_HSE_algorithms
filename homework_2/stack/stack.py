@@ -4,9 +4,11 @@ class Stack:
     def __init__(self):
         self.head = None
         self.tail = None
+        self.size_ = 0
 
     def push(self, element):
         new_node = Node(element)
+        self.size_ += 1
         if self.tail is None:
             self.head = new_node
             self.tail = new_node
@@ -16,6 +18,7 @@ class Stack:
             self.tail = new_node
 
     def pop(self):
+        self.size_ -= 1
         if self.tail is None:
             raise IndexError("pop from empty stack")
         last = self.tail
@@ -29,6 +32,9 @@ class Stack:
 
     def is_empty(self):
         return self.tail is None
+
+    def size(self):
+        return self.size_
 
     def peek(self):
         if self.tail is None:
