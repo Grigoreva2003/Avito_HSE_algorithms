@@ -1,6 +1,6 @@
 # Реализовать алгоритм Дейкстры для взвешенного графа.
 # Тесты.
-import heapq
+import math
 
 class WeightedGraph:
     def __init__(self):
@@ -19,6 +19,10 @@ class WeightedGraph:
 
     def from_dict(self, dict_):
         for vertex1, vertexes in dict_.items():
+            if vertexes == {}:
+                self.add_vertex(vertex1)
+                self.add_edge(vertex1, vertex1, 0)
+
             for vertex2, weight in vertexes.items():
                 self.add_vertex(vertex1)
                 self.add_vertex(vertex2)
@@ -32,15 +36,27 @@ class WeightedGraph:
         return "\n".join(output_list)
 
     def dijkstra(self, start_vertex):
-        distances = {vertex: float('inf') for vertex in self.graph.keys()}
+        if start_vertex not in self.graph.keys():
+            raise KeyError
+
+        distances = {vertex: math.inf for vertex in self.graph.keys()}
         distances[start_vertex] = 0
-        priority_queue = [(0, start_vertex)]
-        while priority_queue:
-            current_distance, current_vertex = heapq.heappop(priority_queue)
+        visited = {vertex: False for vertex in self.graph.keys()}
+        cnt_visited = 0
+        current_distance, current_vertex = 0, start_vertex
+        while cnt_visited != len(self.graph):
+            visited[current_vertex] = True
+            cnt_visited += 1
+            next_distance, next_vertex = math.inf, None
+
             if current_distance > distances[current_vertex]:
                 continue
             for neighbor, weight in self.graph[current_vertex].items():
                 distance = current_distance + weight
                 if distance < distances[neighbor]:
                     distances[neighbor] = distance
-                    heapq.heappush(priority_queue, (distance, neighbor))
+                if not visited[neighbor] and distances[neighbor] <= next_distance:
+                    next_distance, next_vertex = distances[neighbor], neighbor
+            current_distance, current_vertex = next_distance, next_vertex
+
+        return distances
